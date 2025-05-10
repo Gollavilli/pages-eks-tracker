@@ -31,17 +31,8 @@ $(document).ready(function() {
       const tableBody = document.getElementById('tableBody');
       tableBody.innerHTML = '';
       
-      // Sort components to put special ones at the top
-      const sortedComponents = [...data.components].sort((a, b) => {
-        // First put special components at the top
-        if (a.special && !b.special) return -1;
-        if (!a.special && b.special) return 1;
-        // Then sort alphabetically
-        return a.name.localeCompare(b.name);
-      });
-      
       // Populate table with data
-      sortedComponents.forEach(component => {
+      data.components.forEach(component => {
         const row = document.createElement('tr');
         
         // Add special highlighting if needed
