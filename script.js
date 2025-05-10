@@ -31,8 +31,17 @@ $(document).ready(function() {
       const tableBody = document.getElementById('tableBody');
       tableBody.innerHTML = '';
       
+      // Sort components to put special ones at the top
+      const sortedComponents = [...data.components].sort((a, b) => {
+        // First put special components at the top
+        if (a.special && !b.special) return -1;
+        if (!a.special && b.special) return 1;
+        // Then sort alphabetically
+        return a.name.localeCompare(b.name);
+      });
+      
       // Populate table with data
-      data.components.forEach(component => {
+      sortedComponents.forEach(component => {
         const row = document.createElement('tr');
         
         // Add special highlighting if needed
@@ -73,7 +82,8 @@ $(document).ready(function() {
       $('#versionsTable').DataTable({
         paging: false,
         responsive: true,
-        order: [[0, 'asc']],
+        // Disable automatic sorting to preserve our custom order
+        order: [],
         language: {
           search: "Filter components:"
         }
@@ -82,7 +92,7 @@ $(document).ready(function() {
     .catch(error => {
       console.error('Error fetching data:', error);
       document.getElementById('tableBody').innerHTML = 
-        `<tr><td colspan="6" class="text-center text-danger">
+        `<tr><td colspan="4" class="text-center text-danger">
           Error loading data. Please try again later.
         </td></tr>`;
     });
