@@ -45,16 +45,6 @@ $(document).ready(function() {
         descCell.textContent = component.description;
         row.appendChild(descCell);
         
-        // Helm version cell
-        const helmVersionCell = document.createElement('td');
-        helmVersionCell.textContent = component.helm_version;
-        row.appendChild(helmVersionCell);
-        
-        // App version cell
-        const appVersionCell = document.createElement('td');
-        appVersionCell.textContent = component.app_version;
-        row.appendChild(appVersionCell);
-        
         // GitHub release cell
         const githubReleaseCell = document.createElement('td');
         const githubLink = document.createElement('a');
