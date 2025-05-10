@@ -35,6 +35,11 @@ $(document).ready(function() {
       data.components.forEach(component => {
         const row = document.createElement('tr');
         
+        // Add special highlighting if needed
+        if (component.special) {
+          row.classList.add('special-component');
+        }
+        
         // Component name cell
         const nameCell = document.createElement('td');
         nameCell.innerHTML = `<strong>${component.name}</strong>`;
