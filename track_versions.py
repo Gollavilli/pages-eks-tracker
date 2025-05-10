@@ -66,13 +66,19 @@ COMPONENTS = {
         "github_repo": "aws-observability/aws-otel-helm-charts",
         "description": "AWS Distro for OpenTelemetry (ADOT) Collector"
     },
-    "datadog": {
+    "wiz": {
         "type": "helm",
-        "repo": "https://helm.datadoghq.com",
-        "chart": "datadog",
-        "github_repo": "DataDog/helm-charts",
-        "chart_path": "charts/datadog",
-        "description": "Datadog Monitoring Agent"
+        "repo": "https://github.com/wiz-sec/charts",
+        "chart": "wiz",
+        "github_repo": "wiz-sec/charts",
+        "description": "Wiz Security Platform for Kubernetes"
+    },
+    "cert-manager": {
+        "type": "helm",
+        "repo": "https://charts.jetstack.io",
+        "chart": "cert-manager",
+        "github_repo": "cert-manager/cert-manager",
+        "description": "Automatically provision and manage TLS certificates"
     },
     "metrics-server": {
         "type": "helm",
