@@ -17,11 +17,63 @@ COMPONENTS = {
     },
     "karpenter": {
         "type": "helm",
-        "repo": "https://charts.karpenter.sh",
+        "repo": "oci://public.ecr.aws/karpenter",
         "chart": "karpenter",
         "github_repo": "aws/karpenter-provider-aws",
         "description": "Kubernetes Node Autoscaler"
     },
+    "datadog": {
+        "type": "helm",
+        "repo": "https://helm.datadoghq.com",
+        "chart": "datadog",
+        "github_repo": "DataDog/helm-charts",
+        "chart_path": "charts/datadog",
+        "description": "Datadog Monitoring Agent"
+    },
+    "cert-manager": {
+        "type": "helm",
+        "repo": "https://charts.jetstack.io",
+        "chart": "cert-manager",
+        "github_repo": "cert-manager/cert-manager",
+        "description": "Automatically provision and manage TLS certificates"
+    },
+    "aws-for-fluent-bit": {
+        "type": "helm",
+        "repo": "https://aws.github.io/eks-charts",
+        "chart": "aws-for-fluent-bit",
+        "github_repo": "aws/eks-charts",
+        "chart_path": "stable/aws-for-fluent-bit",
+        "description": "Log processor and forwarder for AWS"
+    },
+    "aws-load-balancer-controller": {
+        "type": "helm",
+        "repo": "https://aws.github.io/eks-charts",
+        "chart": "aws-load-balancer-controller",
+        "github_repo": "kubernetes-sigs/aws-load-balancer-controller",
+        "description": "AWS Load Balancer Controller"
+    },
+    "ingress-nginx": {
+        "type": "helm",
+        "repo": "https://kubernetes.github.io/ingress-nginx",
+        "chart": "ingress-nginx",
+        "github_repo": "kubernetes/ingress-nginx",
+        "description": "Ingress controller for Kubernetes using NGINX as a reverse proxy"
+    },
+    "adot-exporter-for-eks-on-ec2": {
+        "type": "helm",
+        "repo": "https://aws-observability.github.io/aws-otel-helm-charts",
+        "chart": "adot-exporter-for-eks-on-ec2",
+        "github_repo": "aws-observability/aws-otel-helm-charts",
+        "description": "AWS Distro for OpenTelemetry (ADOT) Collector"
+    },
+    "wiz": {
+        "type": "helm",
+        "repo": "https://github.com/wiz-sec/charts",
+        "chart": "wiz",
+        "github_repo": "wiz-sec/charts",
+        "description": "Wiz Security Platform for Kubernetes"
+    }
+}
     "datadog": {
         "type": "helm",
         "repo": "https://helm.datadoghq.com",
