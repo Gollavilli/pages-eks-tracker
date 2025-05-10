@@ -37,6 +37,14 @@ body {
   border-bottom: 1px solid #6c757d;
 }
 
+.special-component {
+  background-color: rgba(255, 193, 7, 0.2) !important;
+}
+
+.dark-mode .special-component {
+  background-color: rgba(255, 193, 7, 0.15) !important;
+}
+
 .navbar-brand {
   font-weight: 600;
 }
