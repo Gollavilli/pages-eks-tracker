@@ -8,118 +8,13 @@ from datetime import datetime
 from github import Github
 
 # Configuration - Add your components here
-"""COMPONENTS = {
-    "karpenter": {
-        "type": "helm",
-        "repo": "https://charts.karpenter.sh",
-        "chart": "karpenter",
-        "github_repo": "aws/karpenter-provider-aws",
-        "description": "Kubernetes Node Autoscaler"
-    },
-    "datadog": {
-        "type": "helm",
-        "repo": "https://helm.datadoghq.com",
-        "chart": "datadog",
-        "github_repo": "DataDog/helm-charts",
-        "chart_path": "charts/datadog",
-        "description": "Datadog Monitoring Agent"
-    },
-    "aws-load-balancer-controller": {
-        "type": "helm",
-        "repo": "https://aws.github.io/eks-charts",
-        "chart": "aws-load-balancer-controller",
-        "github_repo": "kubernetes-sigs/aws-load-balancer-controller",
-        "description": "AWS Load Balancer Controller"
-    },
-    "external-dns": {
-        "type": "helm",
-        "repo": "https://kubernetes-sigs.github.io/external-dns",
-        "chart": "external-dns",
-        "github_repo": "kubernetes-sigs/external-dns",
-        "description": "ExternalDNS synchronizes exposed Kubernetes Services with DNS providers"
-    },
-    "cert-manager": {
-        "type": "helm",
-        "repo": "https://charts.jetstack.io",
-        "chart": "cert-manager",
-        "github_repo": "cert-manager/cert-manager",
-        "description": "Automatically provision and manage TLS certificates"
-    },
-    "metrics-server": {
-        "type": "helm",
-        "repo": "https://kubernetes-sigs.github.io/metrics-server",
-        "chart": "metrics-server",
-        "github_repo": "kubernetes-sigs/metrics-server",
-        "description": "Kubernetes Metrics Server"
-    },
-    "cluster-autoscaler": {
-        "type": "helm",
-        "repo": "https://kubernetes.github.io/autoscaler",
-        "chart": "cluster-autoscaler",
-        "github_repo": "kubernetes/autoscaler",
-        "description": "Kubernetes Cluster Autoscaler"
-    },
-    "aws-ebs-csi-driver": {
-        "type": "helm",
-        "repo": "https://kubernetes-sigs.github.io/aws-ebs-csi-driver",
-        "chart": "aws-ebs-csi-driver",
-        "github_repo": "kubernetes-sigs/aws-ebs-csi-driver",
-        "description": "AWS EBS CSI Driver"
-    },
-    "aws-efs-csi-driver": {
-        "type": "helm", 
-        "repo": "https://kubernetes-sigs.github.io/aws-efs-csi-driver",
-        "chart": "aws-efs-csi-driver",
-        "github_repo": "kubernetes-sigs/aws-efs-csi-driver",
-        "description": "AWS EFS CSI Driver"
-    },
-    "nvidia-device-plugin": {
-        "type": "helm",
-        "repo": "https://nvidia.github.io/k8s-device-plugin",
-        "chart": "nvidia-device-plugin",
-        "github_repo": "NVIDIA/k8s-device-plugin",
-        "description": "NVIDIA Device Plugin for Kubernetes"
-    },
-    "external-secrets": {
-        "type": "helm",
-        "repo": "https://charts.external-secrets.io",
-        "chart": "external-secrets",
-        "github_repo": "external-secrets/external-secrets",
-        "description": "External Secrets Operator"
-    },
-    "aws-node-termination-handler": {
-        "type": "helm",
-        "repo": "https://aws.github.io/eks-charts",
-        "chart": "aws-node-termination-handler",
-        "github_repo": "aws/aws-node-termination-handler",
-        "description": "AWS Node Termination Handler"
-    },
-    "aws-for-fluent-bit": {
-        "type": "helm",
-        "repo": "https://aws.github.io/eks-charts",
-        "chart": "aws-for-fluent-bit",
-        "github_repo": "aws/aws-for-fluent-bit",
-        "description": "AWS for Fluent Bit"
-    },
-    "prometheus": {
-        "type": "helm",
-        "repo": "https://prometheus-community.github.io/helm-charts",
-        "chart": "prometheus",
-        "github_repo": "prometheus-community/helm-charts",
-        "chart_path": "charts/prometheus",
-        "description": "Prometheus monitoring system"
-    },
-    "grafana": {
-        "type": "helm",
-        "repo": "https://grafana.github.io/helm-charts",
-        "chart": "grafana",
-        "github_repo": "grafana/helm-charts",
-        "chart_path": "charts/grafana",
-        "description": "Grafana dashboarding tool"
-    }
-}"""
-
 COMPONENTS = {
+    "bottlerocket-os": {
+        "type": "github",
+        "github_repo": "bottlerocket-os/bottlerocket",
+        "description": "Purpose-built OS for running containers on EKS",
+        "special": True
+    },
     "karpenter": {
         "type": "helm",
         "repo": "oci://public.ecr.aws/karpenter",
@@ -239,14 +134,31 @@ def main():
             results.append({
                 "name": name,
                 "description": config["description"],
-                "helm_chart": config["chart"],
+                "helm_chart": config["chart"] if "chart" in config else "",
                 "helm_version": helm_info["version"],
                 "app_version": helm_info["app_version"],
                 "helm_updated": helm_info["updated"],
                 "github_release": github_info["latest_release"],
                 "github_date": github_info["published_at"],
                 "github_url": github_info["url"],
-                "helm_repo": config["repo"]
+                "helm_repo": config["repo"] if "repo" in config else "",
+                "special": config.get("special", False)
+            })
+        elif config["type"] == "github":
+            github_info = get_github_release_info(config["github_repo"])
+            
+            results.append({
+                "name": name,
+                "description": config["description"],
+                "helm_chart": "",
+                "helm_version": "",
+                "app_version": "",
+                "helm_updated": "",
+                "github_release": github_info["latest_release"],
+                "github_date": github_info["published_at"],
+                "github_url": github_info["url"],
+                "helm_repo": "",
+                "special": config.get("special", False)
             })
     
     # Sort by name

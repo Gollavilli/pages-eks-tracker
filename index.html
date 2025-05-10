@@ -7,10 +7,102 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <style>
+    body {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    .dark-mode {
+      background-color: #212529;
+      color: #f8f9fa;
+    }
+    
+    .dark-mode .card {
+      background-color: #343a40;
+      color: #f8f9fa;
+    }
+    
+    .dark-mode .table {
+      color: #f8f9fa;
+    }
+    
+    .dark-mode .table-striped>tbody>tr:nth-of-type(odd) {
+      background-color: rgba(255,255,255,0.05);
+    }
+    
+    .dark-mode .table-hover>tbody>tr:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+    
+    .dark-mode .footer {
+      background-color: #343a40 !important;
+    }
+    
+    .dark-mode .text-muted {
+      color: #adb5bd !important;
+    }
+    
+    .dark-mode .card-header {
+      background-color: #495057;
+      border-bottom: 1px solid #6c757d;
+    }
+    
+    .special-component {
+      background-color: rgba(255, 107, 0, 0.2) !important;
+      font-weight: 500;
+    }
+    
+    .dark-mode .special-component {
+      background-color: rgba(255, 107, 0, 0.25) !important;
+    }
+    
+    .navbar-brand {
+      font-weight: 600;
+    }
+    
+    .version-badge {
+      font-size: 0.8rem;
+    }
+    
+    .github-link {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    .github-link:hover {
+      text-decoration: underline;
+    }
+    
+    .version-date {
+      white-space: nowrap;
+    }
+    
+    .table th {
+      position: sticky;
+      top: 0;
+      background-color: #f8f9fa;
+      z-index: 10;
+    }
+    
+    .dark-mode .table th {
+      background-color: #343a40;
+    }
+    
+    @media (max-width: 768px) {
+      .table-responsive {
+        overflow-x: auto;
+      }
+      
+      .navbar-text {
+        display: none;
+      }
+      
+      .container {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -49,7 +141,7 @@
                 </thead>
                 <tbody id="tableBody">
                   <tr>
-                    <td colspan="6" class="text-center">Loading data...</td>
+                    <td colspan="4" class="text-center">Loading data...</td>
                   </tr>
                 </tbody>
               </table>
@@ -72,7 +164,110 @@
     </div>
   </footer>
   
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Dark mode toggle
+      const darkModeSwitch = document.getElementById('darkModeSwitch');
+      
+      // Check for saved dark mode preference
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        darkModeSwitch.checked = true;
+      }
+      
+      // Handle dark mode toggle
+      darkModeSwitch.addEventListener('change', function() {
+        if (this.checked) {
+          document.body.classList.add('dark-mode');
+          localStorage.setItem('darkMode', 'true');
+        } else {
+          document.body.classList.remove('dark-mode');
+          localStorage.setItem('darkMode', 'false');
+        }
+      });
+      
+      // Fetch component data
+      fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+          // Update last updated timestamp
+          document.getElementById('last-updated').innerHTML = 
+            `<i class="bi bi-clock me-1"></i> Last Updated: ${data.generated_date}`;
+          
+          // Clear loading message
+          const tableBody = document.getElementById('tableBody');
+          tableBody.innerHTML = '';
+          
+          // Sort components to put special ones at the top
+          const sortedComponents = [...data.components].sort((a, b) => {
+            // First put special components at the top
+            if (a.special && !b.special) return -1;
+            if (!a.special && b.special) return 1;
+            // Then sort alphabetically
+            return a.name.localeCompare(b.name);
+          });
+          
+          // Populate table with data
+          sortedComponents.forEach(component => {
+            const row = document.createElement('tr');
+            
+            // Add special highlighting if needed
+            if (component.special) {
+              row.classList.add('special-component');
+            }
+            
+            // Component name cell
+            const nameCell = document.createElement('td');
+            nameCell.innerHTML = `<strong>${component.name}</strong>`;
+            row.appendChild(nameCell);
+            
+            // Description cell
+            const descCell = document.createElement('td');
+            descCell.textContent = component.description;
+            row.appendChild(descCell);
+            
+            // GitHub release cell
+            const githubReleaseCell = document.createElement('td');
+            const githubLink = document.createElement('a');
+            githubLink.href = component.github_url;
+            githubLink.target = '_blank';
+            githubLink.textContent = component.github_release;
+            githubLink.className = 'github-link';
+            githubReleaseCell.appendChild(githubLink);
+            row.appendChild(githubReleaseCell);
+            
+            // Release date cell
+            const dateCell = document.createElement('td');
+            dateCell.className = 'version-date';
+            dateCell.textContent = component.github_date;
+            row.appendChild(dateCell);
+            
+            tableBody.appendChild(row);
+          });
+          
+          // Initialize DataTable
+          $('#versionsTable').DataTable({
+            destroy: true,
+            paging: false,
+            responsive: true,
+            order: [],
+            language: {
+              search: "Filter components:"
+            }
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          document.getElementById('tableBody').innerHTML = 
+            `<tr><td colspan="4" class="text-center text-danger">
+              Error loading data. Please try again later.
+            </td></tr>`;
+        });
+    });
+  </script>
 </body>
 </html>
