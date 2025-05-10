@@ -72,41 +72,6 @@ COMPONENTS = {
         "chart": "wiz",
         "github_repo": "wiz-sec/charts",
         "description": "Wiz Security Platform for Kubernetes"
-    },
-    "cert-manager": {
-        "type": "helm",
-        "repo": "https://charts.jetstack.io",
-        "chart": "cert-manager",
-        "github_repo": "cert-manager/cert-manager",
-        "description": "Automatically provision and manage TLS certificates"
-    },
-    "metrics-server": {
-        "type": "helm",
-        "repo": "https://kubernetes-sigs.github.io/metrics-server",
-        "chart": "metrics-server",
-        "github_repo": "kubernetes-sigs/metrics-server",
-        "description": "Kubernetes Metrics Server"
-    },
-    "aws-ebs-csi-driver": {
-        "type": "helm",
-        "repo": "https://kubernetes-sigs.github.io/aws-ebs-csi-driver",
-        "chart": "aws-ebs-csi-driver",
-        "github_repo": "kubernetes-sigs/aws-ebs-csi-driver",
-        "description": "AWS EBS CSI Driver"
-    },
-    "aws-efs-csi-driver": {
-        "type": "helm", 
-        "repo": "https://kubernetes-sigs.github.io/aws-efs-csi-driver",
-        "chart": "aws-efs-csi-driver",
-        "github_repo": "kubernetes-sigs/aws-efs-csi-driver",
-        "description": "AWS EFS CSI Driver"
-    },
-    "nvidia-device-plugin": {
-        "type": "helm",
-        "repo": "https://nvidia.github.io/k8s-device-plugin",
-        "chart": "nvidia-device-plugin",
-        "github_repo": "NVIDIA/k8s-device-plugin",
-        "description": "NVIDIA Device Plugin for Kubernetes"
     }
 }
 
