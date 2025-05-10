@@ -17,7 +17,7 @@ COMPONENTS = {
     },
     "karpenter": {
         "type": "helm",
-        "repo": "https://charts.karpenter.sh",
+        "repo": "oci://public.ecr.aws/karpenter",
         "chart": "karpenter",
         "github_repo": "aws/karpenter-provider-aws",
         "description": "Kubernetes Node Autoscaler"
@@ -30,6 +30,21 @@ COMPONENTS = {
         "chart_path": "charts/datadog",
         "description": "Datadog Monitoring Agent"
     },
+    "cert-manager": {
+        "type": "helm",
+        "repo": "https://charts.jetstack.io",
+        "chart": "cert-manager",
+        "github_repo": "cert-manager/cert-manager",
+        "description": "Automatically provision and manage TLS certificates"
+    },
+    "aws-for-fluent-bit": {
+        "type": "helm",
+        "repo": "https://aws.github.io/eks-charts",
+        "chart": "aws-for-fluent-bit",
+        "github_repo": "aws/eks-charts",
+        "chart_path": "stable/aws-for-fluent-bit",
+        "description": "Log processor and forwarder for AWS"
+    },
     "aws-load-balancer-controller": {
         "type": "helm",
         "repo": "https://aws.github.io/eks-charts",
@@ -37,12 +52,26 @@ COMPONENTS = {
         "github_repo": "kubernetes-sigs/aws-load-balancer-controller",
         "description": "AWS Load Balancer Controller"
     },
-    "external-dns": {
+    "ingress-nginx": {
         "type": "helm",
-        "repo": "https://kubernetes-sigs.github.io/external-dns",
-        "chart": "external-dns",
-        "github_repo": "kubernetes-sigs/external-dns",
-        "description": "ExternalDNS synchronizes exposed Kubernetes Services with DNS providers"
+        "repo": "https://kubernetes.github.io/ingress-nginx",
+        "chart": "ingress-nginx",
+        "github_repo": "kubernetes/ingress-nginx",
+        "description": "Ingress controller for Kubernetes using NGINX as a reverse proxy"
+    },
+    "adot-exporter-for-eks-on-ec2": {
+        "type": "helm",
+        "repo": "https://aws-observability.github.io/aws-otel-helm-charts",
+        "chart": "adot-exporter-for-eks-on-ec2",
+        "github_repo": "aws-observability/aws-otel-helm-charts",
+        "description": "AWS Distro for OpenTelemetry (ADOT) Collector"
+    },
+    "wiz": {
+        "type": "helm",
+        "repo": "https://github.com/wiz-sec/charts",
+        "chart": "wiz",
+        "github_repo": "wiz-sec/charts",
+        "description": "Wiz Security Platform for Kubernetes"
     },
     "cert-manager": {
         "type": "helm",
@@ -57,13 +86,6 @@ COMPONENTS = {
         "chart": "metrics-server",
         "github_repo": "kubernetes-sigs/metrics-server",
         "description": "Kubernetes Metrics Server"
-    },
-    "cluster-autoscaler": {
-        "type": "helm",
-        "repo": "https://kubernetes.github.io/autoscaler",
-        "chart": "cluster-autoscaler",
-        "github_repo": "kubernetes/autoscaler",
-        "description": "Kubernetes Cluster Autoscaler"
     },
     "aws-ebs-csi-driver": {
         "type": "helm",
@@ -85,43 +107,6 @@ COMPONENTS = {
         "chart": "nvidia-device-plugin",
         "github_repo": "NVIDIA/k8s-device-plugin",
         "description": "NVIDIA Device Plugin for Kubernetes"
-    },
-    "external-secrets": {
-        "type": "helm",
-        "repo": "https://charts.external-secrets.io",
-        "chart": "external-secrets",
-        "github_repo": "external-secrets/external-secrets",
-        "description": "External Secrets Operator"
-    },
-    "aws-node-termination-handler": {
-        "type": "helm",
-        "repo": "https://aws.github.io/eks-charts",
-        "chart": "aws-node-termination-handler",
-        "github_repo": "aws/aws-node-termination-handler",
-        "description": "AWS Node Termination Handler"
-    },
-    "aws-for-fluent-bit": {
-        "type": "helm",
-        "repo": "https://aws.github.io/eks-charts",
-        "chart": "aws-for-fluent-bit",
-        "github_repo": "aws/aws-for-fluent-bit",
-        "description": "AWS for Fluent Bit"
-    },
-    "prometheus": {
-        "type": "helm",
-        "repo": "https://prometheus-community.github.io/helm-charts",
-        "chart": "prometheus",
-        "github_repo": "prometheus-community/helm-charts",
-        "chart_path": "charts/prometheus",
-        "description": "Prometheus monitoring system"
-    },
-    "grafana": {
-        "type": "helm",
-        "repo": "https://grafana.github.io/helm-charts",
-        "chart": "grafana",
-        "github_repo": "grafana/helm-charts",
-        "chart_path": "charts/grafana",
-        "description": "Grafana dashboarding tool"
     }
 }
 
